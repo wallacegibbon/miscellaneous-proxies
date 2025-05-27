@@ -83,6 +83,26 @@
 			"statsOutboundUplink": true
 		}
 	},
+	"routing": {
+		"domainStrategy": "IPIfNonMatch",
+		"rules": [
+			{
+				"type": "field",
+				"outboundTag": "DIRECT",
+				"domain": ["geosite:cn"]
+			},
+			{
+				"type": "field",
+				"outboundTag": "DIRECT",
+				"ip": ["geoip:cn", "geoip:private"]
+			},
+			{
+				"type": "field",
+				"outboundTag": "PROXY",
+				"network": "tcp, udp"
+			}
+		]
+	},
 	"log": {
 		"loglevel": "warning"
 	}
