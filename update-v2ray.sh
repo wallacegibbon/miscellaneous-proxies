@@ -20,7 +20,7 @@ f() {
 }
 
 extract() {
-	id=$1
+	id=$(printf "%03d" $1)
 	a=$(sed -n 's|^ss://\(.*\)@\(.*\):\([0-9]*\)#\(.*\)|\1:\2:\3:\4|p')
 
 	method_pass=$(echo $a | f 1 | base64 -d)
@@ -32,7 +32,7 @@ extract() {
 	tagraw=$(echo $a | f 4 | tr -d '\r')
 	tag=$(printf "%b\n" "${tagraw//%/\\x}")
 
-	p="$SCRIPTDIR/db-v2ray/$(printf "%03d" $id).$tag"
+	p="$SCRIPTDIR/db-v2ray/$id.$tag"
 	mkdir "$p"
 
 	printf '{"address":"%s", "method":"%s", "password":"%s", "port":%d}' \

@@ -7,6 +7,11 @@ if test $# -lt 1; then
 	exit 1
 fi
 
+if ! echo $1 | grep -q '[0-9][0-9][0-9]'; then
+	echo "Invalid ID: $1" >&2
+	exit 2
+fi
+
 server=$(cat $SCRIPTDIR/db-v2ray/$1*/server)
 tag=$(cat $SCRIPTDIR/db-v2ray/$1*/tag)
 
