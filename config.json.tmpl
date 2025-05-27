@@ -1,0 +1,89 @@
+{
+	"dns": {
+		"servers": [
+			"180.76.76.76",
+			"223.5.5.5",
+			"223.6.6.6",
+			"114.114.114.114",
+			"8.8.8.8",
+			"8.8.4.4"
+		]
+	},
+	"fakedns": {
+		"ipPool": "198.18.0.0/15",
+		"poolSize": 65535
+	},
+	"inbounds": [
+		{
+			"listen": "127.0.0.1",
+			"port": 7890,
+			"protocol": "http",
+			"settings": {
+				"allowTransparent": true,
+				"timeout": 300
+			},
+			"sniffing": {
+			},
+			"tag": "http_IN"
+		},
+		{
+			"listen": "127.0.0.1",
+			"port": 7891,
+			"protocol": "socks",
+			"settings": {
+				"auth": "noauth",
+				"ip": "127.0.0.1",
+				"udp": true
+			},
+			"sniffing": {
+			},
+			"tag": "socks_IN"
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "shadowsocks",
+			"sendThrough": "0.0.0.0",
+			"settings": {
+				"servers": [<SERVER>]
+			},
+			"streamSettings": {
+			},
+			"tag": "PROXY"
+		},
+		{
+			"protocol": "freedom",
+			"sendThrough": "0.0.0.0",
+			"settings": {
+				"domainStrategy": "AsIs",
+				"redirect": ":0"
+			},
+			"streamSettings": {
+			},
+			"tag": "DIRECT"
+		},
+		{
+			"protocol": "blackhole",
+			"sendThrough": "0.0.0.0",
+			"settings": {
+				"response": {
+					"type": "none"
+				}
+			},
+			"streamSettings": {
+			},
+			"tag": "BLACKHOLE"
+		}
+	],
+	"policy": {
+		"system": {
+			"statsInboundDownlink": true,
+			"statsInboundUplink": true,
+			"statsOutboundDownlink": true,
+			"statsOutboundUplink": true
+		}
+	},
+	"log": {
+		"loglevel": "warning"
+	}
+}
