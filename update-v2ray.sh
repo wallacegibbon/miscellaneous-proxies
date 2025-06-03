@@ -40,9 +40,9 @@ extract() {
 	echo $id: $tag
 }
 
-id=0
+proxy_url_tmp=$(mktemp)
 
-if ! curl -s $(cat $PROXY_URL_FILE) > /tmp/proxy_url_tmp; then
+if ! curl -s $(cat $PROXY_URL_FILE) > $proxy_url_tmp; then
 	echo "Failed fetching proxy list" >&2
 	exit 1
 fi
@@ -50,7 +50,10 @@ fi
 rm -rf $SCRIPTDIR/db-v2ray
 mkdir $SCRIPTDIR/db-v2ray
 
-for l in $(cat /tmp/proxy_url_tmp | base64 -d | grep '^ss:'); do
+id=0
+for l in $(cat $proxy_url_tmp | base64 -d | grep '^ss:'); do
  	printf "%s\n" "$l" | extract $id
 	((id++))
 done
+
+rm $proxy_url_tmp
