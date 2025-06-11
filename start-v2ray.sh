@@ -15,8 +15,7 @@ fi
 server=$(cat $SCRIPTDIR/db-v2ray/$1*/server)
 tag=$(cat $SCRIPTDIR/db-v2ray/$1*/tag)
 
-echo
-echo "server config:" $server
+#echo "server config:" $server
 echo "server tag:" $tag
 
 sed "s|<SERVER>|$server|" $SCRIPTDIR/config-v2ray.json.tmpl \
