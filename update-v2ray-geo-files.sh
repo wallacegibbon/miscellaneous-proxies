@@ -1,5 +1,6 @@
 #! /bin/sh
 
+set -e
 SCRIPTDIR=$(dirname $0)
 
 export https_proxy=127.0.0.1:7890

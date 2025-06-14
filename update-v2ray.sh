@@ -1,6 +1,7 @@
 #! /bin/bash
 
-PROXY_URL_FILE="$HOME/PROXY.SUB"
+set -e
+PROXY_URL_FILE="$HOME/proxy.sub"
 
 ## PROXY_URL_FILE should contain an URL like:
 ##	https://your.site.com/subscribe?token=yoursecrettoken
@@ -42,10 +43,7 @@ extract() {
 
 proxy_url_tmp=$(mktemp)
 
-if ! curl -s $(cat $PROXY_URL_FILE) > $proxy_url_tmp; then
-	echo "Failed fetching proxy list" >&2
-	exit 1
-fi
+curl -s $(cat $PROXY_URL_FILE) > $proxy_url_tmp
 
 rm -rf $SCRIPTDIR/db-v2ray
 mkdir $SCRIPTDIR/db-v2ray
@@ -53,7 +51,7 @@ mkdir $SCRIPTDIR/db-v2ray
 id=0
 for l in $(cat $proxy_url_tmp | base64 -d | grep '^ss:'); do
  	printf "%s\n" "$l" | extract $id
-	((id++))
+	((id++)) || true	# no need for `|| true` without `set -e`
 done
 
 rm $proxy_url_tmp
