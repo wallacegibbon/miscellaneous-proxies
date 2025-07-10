@@ -13,8 +13,8 @@ if ! echo $1 | grep -q '[0-9][0-9][0-9]'; then
 	exit 2
 fi
 
-server=$(cat $SCRIPTDIR/db-v2ray/$1*/server)
-tag=$(cat $SCRIPTDIR/db-v2ray/$1*/tag)
+server=$(cat $SCRIPTDIR/db-xray/$1*/server | sed -z 's/\s\s*/ /g')
+tag=$(cat $SCRIPTDIR/db-xray/$1*/tag)
 
 #echo "server config:" $server
 echo "server tag:" $tag
@@ -30,9 +30,10 @@ if test -n "$DIRECTIP"; then
 	DIRECTIP=",\"$(echo $DIRECTIP | sed 's/,/","/g')\""
 fi
 
-sed "s|<SERVER>|$server|;s|<DIRECTIP>|$DIRECTIP|;s|<DIRECTDOMAIN>|$DIRECTDOMAIN|" \
-	$SCRIPTDIR/config-v2ray.json.tmpl \
-	> $SCRIPTDIR/config-v2ray.json
+cat $SCRIPTDIR/config-xray.json.tmpl \
+	| sed "s#<SERVER>#$server#" \
+	| sed "s#<DIRECTIP>#$DIRECTIP#" \
+	| sed "s#<DIRECTDOMAIN>#$DIRECTDOMAIN#" \
+	> $SCRIPTDIR/config-xray.json
 
-v2ray -config $SCRIPTDIR/config-v2ray.json
-
+xray run -config $SCRIPTDIR/config-xray.json

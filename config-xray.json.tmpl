@@ -24,7 +24,7 @@
 			},
 			"sniffing": {
 			},
-			"tag": "http_IN"
+			"tag": "HTTP_IN"
 		},
 		{
 			"listen": "127.0.0.1",
@@ -37,20 +37,11 @@
 			},
 			"sniffing": {
 			},
-			"tag": "socks_IN"
+			"tag": "SOCKS_IN"
 		}
 	],
 	"outbounds": [
-		{
-			"protocol": "shadowsocks",
-			"sendThrough": "0.0.0.0",
-			"settings": {
-				"servers": [<SERVER>]
-			},
-			"streamSettings": {
-			},
-			"tag": "PROXY"
-		},
+		<SERVER>,
 		{
 			"protocol": "freedom",
 			"sendThrough": "0.0.0.0",
