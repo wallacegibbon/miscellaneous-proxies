@@ -26,9 +26,9 @@ for l in $(cat $proxy_url_tmp); do
 	mkdir -p "$p"
 	case "$l" in
 	ss://*)
-		./parse-url-ss.sh $l > "$p/server" 3> "$p/tag";;
+		$SCRIPTDIR/parse-url-ss.sh $l > "$p/server" 3> "$p/tag";;
 	vless://*)
-		./parse-url-vless.sh $l > "$p/server" 3> "$p/tag";;
+		$SCRIPTDIR/parse-url-vless.sh $l > "$p/server" 3> "$p/tag";;
 	esac
 	echo "$idstr: $(cat "$p/tag" 2>/dev/null)"
 	((id++)) || true	# no need for `|| true` without `set -e`

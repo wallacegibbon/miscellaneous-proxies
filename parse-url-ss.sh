@@ -17,7 +17,7 @@ password=$(echo $method_pass | f 2)
 address=$(echo $a | f 2)
 port=$(echo $a | f 3)
 tagraw=$(echo $a | f 4 | tr -d '\r')
-tag="$(./decodeurl.sh $tagraw) [SS]"
+tag="$($SCRIPTDIR/decodeurl.sh $tagraw) [SS]"
 
 cat <<EOF
 {

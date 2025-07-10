@@ -21,7 +21,7 @@ sid=$(printf '%s' "$params" | tr '&' '\n' | grep '^sid=' | cut -d= -f2)
 fp=$(printf '%s' "$params" | tr '&' '\n' | grep '^fp=' | cut -d= -f2)
 mux=$(printf '%s' "$params" | tr '&' '\n' | grep '^mux=' | cut -d= -f2)
 
-tag="$(./decodeurl.sh $fragment) [VLESS]"
+tag="$($SCRIPTDIR/decodeurl.sh $fragment) [VLESS]"
 p="$SCRIPTDIR/db-xray/$id.$tag"
 mkdir -p "$p"
 
