@@ -30,8 +30,13 @@ if test -n "$DIRECTIP"; then
 	DIRECTIP=",\"$(echo $DIRECTIP | sed 's/,/","/g')\""
 fi
 
+if test -n "$BLACKHOLE"; then
+	BLACKHOLE=",\"$(echo $BLACKHOLE | sed 's/,/","/g')\""
+fi
+
 cat $SCRIPTDIR/config-xray.json.tmpl \
 	| sed "s#<SERVER>#$server#" \
+	| sed "s#<BLACKHOLE>#$BLACKHOLE#" \
 	| sed "s#<DIRECTIP>#$DIRECTIP#" \
 	| sed "s#<DIRECTDOMAIN>#$DIRECTDOMAIN#" \
 	> $SCRIPTDIR/config-xray.json
