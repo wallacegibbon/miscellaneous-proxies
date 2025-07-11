@@ -79,6 +79,11 @@
 		"rules": [
 			{
 				"type": "field",
+				"outboundTag": "BLACKHOLE",
+				"domain": ["a.invalid" <BLACKHOLE>]
+			},
+			{
+				"type": "field",
 				"outboundTag": "DIRECT",
 				"domain": ["geosite:cn" <DIRECTDOMAIN>]
 			},
@@ -86,11 +91,6 @@
 				"type": "field",
 				"outboundTag": "DIRECT",
 				"ip": ["geoip:cn", "geoip:private" <DIRECTIP>]
-			},
-			{
-				"type": "field",
-				"outboundTag": "BLACKHOLE",
-				"domain": ["a.invalid" <BLACKHOLE>]
 			},
 			{
 				"type": "field",
