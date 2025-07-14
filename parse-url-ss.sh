@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+
 SCRIPTDIR=$(dirname $0)
 
 a=$(printf "%s" "$1" \
@@ -16,13 +17,15 @@ method=$(echo $method_pass | f 1)
 password=$(echo $method_pass | f 2)
 address=$(echo $a | f 2)
 port=$(echo $a | f 3)
+
 tagraw=$(echo $a | f 4 | tr -d '\r')
+
 tag="$($SCRIPTDIR/decodeurl.sh $tagraw) [SS]"
+echo "$tag" >&3
 
 cat <<EOF
 {
 	"protocol": "shadowsocks",
-	"sendThrough": "0.0.0.0",
 	"settings": {
 		"servers": [
 			{
@@ -36,6 +39,3 @@ cat <<EOF
 	"tag": "PROXY"
 }
 EOF
-
-echo "$tag" >&3
-

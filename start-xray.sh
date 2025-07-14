@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+
 SCRIPTDIR=$(dirname $0)
 
 if test $# -lt 1; then

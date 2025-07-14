@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+
 SCRIPTDIR=$(dirname $0)
 
 a="$1"
@@ -22,13 +23,11 @@ fp=$(printf '%s' "$params" | tr '&' '\n' | grep '^fp=' | cut -d= -f2)
 mux=$(printf '%s' "$params" | tr '&' '\n' | grep '^mux=' | cut -d= -f2)
 
 tag="$($SCRIPTDIR/decodeurl.sh $fragment) [VLESS]"
-p="$SCRIPTDIR/db-xray/$id.$tag"
-mkdir -p "$p"
+echo "$tag" >&3
 
 cat <<EOF
 {
 	"protocol": "vless",
-	"sendThrough": "0.0.0.0",
 	"settings": {
 		"vnext": [
 			{
@@ -57,5 +56,3 @@ cat <<EOF
 	"tag": "PROXY"
 }
 EOF
-
-echo "$tag" >&3
