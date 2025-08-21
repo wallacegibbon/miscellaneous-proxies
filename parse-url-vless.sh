@@ -4,24 +4,31 @@ set -e
 
 SCRIPTDIR=$(dirname $0)
 
-a="$1"
-
 # Extract components using POSIX-compatible methods
-uuid=$(printf '%s' "$a" | sed -n 's|^vless://\([^@]*\)@.*|\1|p')
-server=$(printf '%s' "$a" | sed -n 's|^vless://[^@]*@\([^:/?]*\).*|\1|p')
-port=$(printf '%s' "$a" | sed -n 's|^vless://[^@]*@[^:]*:\([0-9]*\).*|\1|p')
-params=$(printf '%s' "$a" | sed -n 's|^[^?]*?\([^#]*\).*|\1|p')
-fragment=$(printf '%s' "$a" | sed -n 's|^[^#]*#\(.*\)|\1|p' | tr -d '\r')
+uuid=$(printf '%s' "$1" | sed -n 's|^vless://\([^@]*\)@.*|\1|p')
+server=$(printf '%s' "$1" | sed -n 's|^vless://[^@]*@\([^:/?]*\).*|\1|p')
+port=$(printf '%s' "$1" | sed -n 's|^vless://[^@]*@[^:]*:\([0-9]*\).*|\1|p')
+rawparams=$(printf '%s' "$1" | sed -n 's|^[^?]*?\([^#]*\).*|\1|p')
+fragment=$(printf '%s' "$1" | sed -n 's|^[^#]*#\(.*\)|\1|p' | tr -d '\r')
 
-# Parse query parameters
-type=$(printf '%s' "$params" | tr '&' '\n' | grep '^type=' | cut -d= -f2)
-security=$(printf '%s' "$params" | tr '&' '\n' | grep '^security=' | cut -d= -f2)
-sni=$(printf '%s' "$params" | tr '&' '\n' | grep '^sni=' | cut -d= -f2)
-pbk=$(printf '%s' "$params" | tr '&' '\n' | grep '^pbk=' | cut -d= -f2)
-sid=$(printf '%s' "$params" | tr '&' '\n' | grep '^sid=' | cut -d= -f2)
-fp=$(printf '%s' "$params" | tr '&' '\n' | grep '^fp=' | cut -d= -f2)
-mux=$(printf '%s' "$params" | tr '&' '\n' | grep '^mux=' | cut -d= -f2)
-flow=$(printf '%s' "$params" | tr '&' '\n' | grep '^flow=' | cut -d= -f2)
+params=$(mktemp tmp.vlessparams.XXX)
+printf '%s' "$rawparams" | tr '&' '\n' > $params
+
+getparam()
+{
+	grep $1 $params | cut -d= -f2
+}
+
+type=$(getparam '^type=')
+security=$(getparam '^security=')
+sni=$(getparam '^sni=')
+pbk=$(getparam '^pbk=')
+sid=$(getparam '^sid=')
+fp=$(getparam '^fp=')
+mux=$(getparam '^mux=')
+flow=$(getparam '^flow=')
+
+rm $params
 
 tag="$($SCRIPTDIR/decodeurl.sh $fragment) [VLESS]"
 echo "$tag" >&3

@@ -5,7 +5,7 @@ set -e
 SCRIPTDIR=$(dirname $0)
 
 ## PROXY_URL_FILE should contain an URL like:
-##	https://your.site.com/subscribe?token=yoursecrettoken
+## https://your.site.com/subscribe?token=yoursecrettoken
 PROXY_URL_FILE="$HOME/proxy.sub"
 
 if ! grep -q '^https\?://' $PROXY_URL_FILE 2> /dev/null; then
@@ -13,7 +13,7 @@ if ! grep -q '^https\?://' $PROXY_URL_FILE 2> /dev/null; then
 	exit 1
 fi
 
-proxy_url_tmp=$(mktemp)
+proxy_url_tmp=$(mktemp tmp.subscribe.XXX)
 
 echo "proxy URLs are stored in tmp file: $proxy_url_tmp"
 
