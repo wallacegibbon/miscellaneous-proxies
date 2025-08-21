@@ -21,6 +21,7 @@ pbk=$(printf '%s' "$params" | tr '&' '\n' | grep '^pbk=' | cut -d= -f2)
 sid=$(printf '%s' "$params" | tr '&' '\n' | grep '^sid=' | cut -d= -f2)
 fp=$(printf '%s' "$params" | tr '&' '\n' | grep '^fp=' | cut -d= -f2)
 mux=$(printf '%s' "$params" | tr '&' '\n' | grep '^mux=' | cut -d= -f2)
+flow=$(printf '%s' "$params" | tr '&' '\n' | grep '^flow=' | cut -d= -f2)
 
 tag="$($SCRIPTDIR/decodeurl.sh $fragment) [VLESS]"
 echo "$tag" >&3
@@ -37,7 +38,7 @@ cat <<EOF
 					{
 						"id": "$uuid",
 						"encryption": "none",
-						"flow": ""
+						"flow": "$flow"
 					}
 				]
 			}
